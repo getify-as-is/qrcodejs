@@ -241,8 +241,8 @@ var Drawing = useSVG ? svgDrawer : !_isSupportCanvas() ? (function () {
 	 * @param {QRCode} oQRCode
 	 */
 	Drawing.prototype.draw = function (oQRCode) {
-        var _htOption = this._htOption;
-        var _el = this._el;
+		var _htOption = this._htOption;
+		var _el = this._el;
 		var nCount = oQRCode.getModuleCount();
 		var nWidth = Math.floor(_htOption.width / nCount);
 		var nHeight = Math.floor(_htOption.height / nCount);
@@ -288,23 +288,23 @@ var Drawing = useSVG ? svgDrawer : !_isSupportCanvas() ? (function () {
 
 	// Android 2.1 bug workaround
 	// http://code.google.com/p/android/issues/detail?id=5141
-	if (this._android && this._android <= 2.1) {
-    	var factor = 1 / window.devicePixelRatio;
-        var drawImage = CanvasRenderingContext2D.prototype.drawImage;
-    	CanvasRenderingContext2D.prototype.drawImage = function (image, sx, sy, sw, sh, dx, dy, dw, dh) {
-    		if (("nodeName" in image) && /img/i.test(image.nodeName)) {
-	        	for (var i = arguments.length - 1; i >= 1; i--) {
-	            	arguments[i] = arguments[i] * factor;
-	        	}
-    		} else if (typeof dw == "undefined") {
-    			arguments[1] *= factor;
-    			arguments[2] *= factor;
-    			arguments[3] *= factor;
-    			arguments[4] *= factor;
-    		}
+	if (window._android && window._android <= 2.1) {
+		var factor = 1 / window.devicePixelRatio;
+		var drawImage = CanvasRenderingContext2D.prototype.drawImage;
+		CanvasRenderingContext2D.prototype.drawImage = function (image, sx, sy, sw, sh, dx, dy, dw, dh) {
+			if (("nodeName" in image) && /img/i.test(image.nodeName)) {
+				for (var i = arguments.length - 1; i >= 1; i--) {
+					arguments[i] = arguments[i] * factor;
+				}
+			} else if (typeof dw == "undefined") {
+				arguments[1] *= factor;
+				arguments[2] *= factor;
+				arguments[3] *= factor;
+				arguments[4] *= factor;
+			}
 
-        	drawImage.apply(this, arguments);
-    	};
+			drawImage.apply(this, arguments);
+		};
 	}
 
 	/**
@@ -315,38 +315,38 @@ var Drawing = useSVG ? svgDrawer : !_isSupportCanvas() ? (function () {
 	 * @param {Function} fFail Occurs if it doesn't support Data URI
 	 */
 	function _safeSetDataURI(fSuccess, fFail) {
-        var self = this;
-        self._fFail = fFail;
-        self._fSuccess = fSuccess;
+		var self = this;
+		self._fFail = fFail;
+		self._fSuccess = fSuccess;
 
-        // Check it just once
-        if (self._bSupportDataURI === null) {
-            var el = document.createElement("img");
-            var fOnError = function() {
-                self._bSupportDataURI = false;
+		// Check it just once
+		if (self._bSupportDataURI === null) {
+			var el = document.createElement("img");
+			var fOnError = function() {
+				self._bSupportDataURI = false;
 
-                if (self._fFail) {
-                    self._fFail.call(self);
-                }
-            };
-            var fOnSuccess = function() {
-                self._bSupportDataURI = true;
+				if (self._fFail) {
+					self._fFail.call(self);
+				}
+			};
+			var fOnSuccess = function() {
+				self._bSupportDataURI = true;
 
-                if (self._fSuccess) {
-                    self._fSuccess.call(self);
-                }
-            };
+				if (self._fSuccess) {
+					self._fSuccess.call(self);
+				}
+			};
 
-            el.onabort = fOnError;
-            el.onerror = fOnError;
-            el.onload = fOnSuccess;
-            el.src = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="; // the Image contains 1px data.
-            return;
-        } else if (self._bSupportDataURI === true && self._fSuccess) {
-            self._fSuccess.call(self);
-        } else if (self._bSupportDataURI === false && self._fFail) {
-            self._fFail.call(self);
-        }
+			el.onabort = fOnError;
+			el.onerror = fOnError;
+			el.onload = fOnSuccess;
+			el.src = "data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="; // the Image contains 1px data.
+			return;
+		} else if (self._bSupportDataURI === true && self._fSuccess) {
+			self._fSuccess.call(self);
+		} else if (self._bSupportDataURI === false && self._fFail) {
+			self._fFail.call(self);
+		}
 	};
 
 	/**
@@ -381,9 +381,9 @@ var Drawing = useSVG ? svgDrawer : !_isSupportCanvas() ? (function () {
 	 * @param {QRCode} oQRCode
 	 */
 	Drawing.prototype.draw = function (oQRCode) {
-        var _elImage = this._elImage;
-        var _oContext = this._oContext;
-        var _htOption = this._htOption;
+		var _elImage = this._elImage;
+		var _oContext = this._oContext;
+		var _htOption = this._htOption;
 
 		var nCount = oQRCode.getModuleCount();
 		var nWidth = _htOption.width / nCount;
